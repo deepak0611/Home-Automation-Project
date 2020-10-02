@@ -9,11 +9,134 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <title>Home Automation</title>
+
+<style type="text/css">
+    .switch_box{
+        border-radius: 10px;
+        box-shadow: 0.5px 1px 1px black;
+        margin: 15px;
+        padding: 20px;
+    }
+
+    input{
+        width: 50px;
+        height:25px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: green;
+        border-radius: 5px;
+        outline:none;
+        padding:5px;
+    }
+    .schedule_time_input{
+        display:none;
+    }
+
+</style>
+
+
   </head>
   <body>
-    <h1>Home Automation</h1>
 
-    <a href="/change_state"><button>change output5</button></a>
+  {% load static %}
+
+    <div class="container">
+        <h2>Home Automation</h2>
+        <hr>
+
+
+<div class="row">
+{% for i in pin %}
+
+         <div class="col-sm switch_box">
+             <div class="row">
+                 <div class="col-9">
+                     <h4>{{i.pin_name}}</h4>
+                 </div>
+                 <div class="col-3">
+
+                     {% if i.state %}
+                     <a href="change_state/{{i.pin_no}}">
+                    <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="blue" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
+                      <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
+                    </svg>
+                    </a>
+                     {% else %}
+                    <a href="change_state/{{i.pin_no}}">
+                    <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
+                      <path fill-rule="evenodd" d="M5 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"/>
+                    </svg>
+                    </a>
+                    {% endif %}
+
+                 </div>
+             </div>
+
+             <br>
+             <h6>Scheduled on/off</h6>
+             <hr style="margin-top:1px;">
+
+
+
+             {% if i.schedule_status %}
+                <p style="color:green;">Scheduled from {{i.start_hr}} hr {{i.start_min}} min to {{i.end_hr}} hr {{i.end_min}} min </p>
+
+                <button type="button" class="btn" style="background-color:hsl(220, 100%, 67%);color:white;" onclick="display_sti({{i.id}})">Update</button>
+                <a href="remove_schedule_time/{{i.pin_no}}">
+                <button type="button" class="btn" style="background-color:hsl(2, 100%, 67%);color:white;" >Remove</button>
+                </a>
+             {% else %}
+                <button type="button" class="btn" style="background-color:hsl(151, 100%, 67%);" onclick="display_sti({{i.id}})">Set Schedule</button>
+
+
+             {% endif %}
+
+            <br><br>
+
+             <div class="schedule_time_input">
+
+             <p>*Use 24-hour format</p>
+            <h6>Set start time</h6>
+            <form method="get" action="set_schedule_time/{{i.pin_no}}">
+
+            <input type="number" name="sh" min="0" max="23" value="{{i.start_hr}}">&nbsp;Hr&nbsp;&nbsp;
+            <input type="number" name="sm" min="0" max="59" value="{{i.start_min}}">&nbsp;Min
+            <br><br>
+            <h6>Set finish time</h6>
+            <input type="number" name="eh" min="0" max="23" value="{{i.end_hr}}">&nbsp;Hr&nbsp;&nbsp;
+            <input type="number" name="em" min="0" max="59" value="{{i.end_min}}">&nbsp;Min
+            <br><br>
+
+            <button type="submit" class="btn" style="background-color:hsl(116, 74%, 52%);color:white;">   &nbsp;&nbsp;&nbsp;Set&nbsp;&nbsp;&nbsp;  </button>
+
+
+            </form>
+
+            </div>
+
+
+        </div>
+
+{% endfor %}
+</div>
+
+
+
+
+
+</div>
+
+
+  <script>
+      function display_sti(id){
+        document.getElementsByClassName("schedule_time_input")[id-1].style.display="block";
+      }
+
+
+  </script>
+
 
 
 

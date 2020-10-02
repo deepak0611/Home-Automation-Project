@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -10,10 +10,12 @@ from . serializers import pin_stateSerializer
 
 
 def index(request):
-    return render(request,'myapp/index.html')
+    obj1 = pin_state.objects.all()
 
-def change_state(request):
-    obj1= pin_state.objects.get(pin_name="output5")
+    return render(request,'myapp/index.html',{'pin':obj1})
+
+def change_state(request,pin_no):
+    obj1= pin_state.objects.get(pin_no=pin_no)
 
     if obj1.state == 1:
         obj1.state=0
@@ -21,8 +23,28 @@ def change_state(request):
         obj1.state=1
 
     obj1.save()
+    return redirect('/')
 
-    return render(request,'myapp/index.html')
+
+def set_schedule_time(request,pin_no):
+    obj1= pin_state.objects.get(pin_no=pin_no)
+
+    obj1.start_hr=request.GET['sh'];
+    obj1.start_min=request.GET['sm'];
+    obj1.end_hr=request.GET['eh'];
+    obj1.end_min=request.GET['em'];
+    obj1.schedule_status=1;
+    obj1.save()
+
+    return redirect('/')
+
+def remove_schedule_time(request,pin_no):
+    obj1=pin_state.objects.get(pin_no=pin_no)
+    obj1.schedule_status=0;
+    obj1.save()
+    return redirect('/')
+
+
 
 
 class pin_state_list(APIView):
