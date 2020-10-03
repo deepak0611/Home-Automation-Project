@@ -26,17 +26,32 @@ def change_state(request,pin_no):
     return redirect('/')
 
 
-def set_schedule_time(request,pin_no):
+# def set_schedule_time(request,pin_no):
+#     obj1= pin_state.objects.get(pin_no=pin_no)
+#
+#     obj1.start_hr=request.GET['sh'];
+#     obj1.start_min=request.GET['sm'];
+#     obj1.end_hr=request.GET['eh'];
+#     obj1.end_min=request.GET['em'];
+#     obj1.schedule_status=1;
+#     obj1.save()
+#
+#     return redirect('/')
+
+def set_schedule_time(request,pin_no,sh,sm,eh,em):
     obj1= pin_state.objects.get(pin_no=pin_no)
 
-    obj1.start_hr=request.GET['sh'];
-    obj1.start_min=request.GET['sm'];
-    obj1.end_hr=request.GET['eh'];
-    obj1.end_min=request.GET['em'];
+    obj1.start_hr=sh;
+    obj1.start_min=sm;
+    obj1.end_hr=eh;
+    obj1.end_min=em;
     obj1.schedule_status=1;
     obj1.save()
 
     return redirect('/')
+
+
+
 
 def remove_schedule_time(request,pin_no):
     obj1=pin_state.objects.get(pin_no=pin_no)
