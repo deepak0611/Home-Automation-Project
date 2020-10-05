@@ -51,15 +51,11 @@ def set_schedule_time(request,pin_no,sh,sm,eh,em):
     return redirect('/')
 
 
-
-
 def remove_schedule_time(request,pin_no):
     obj1=pin_state.objects.get(pin_no=pin_no)
     obj1.schedule_status=0;
     obj1.save()
     return redirect('/')
-
-
 
 
 class pin_state_list(APIView):
@@ -68,3 +64,53 @@ class pin_state_list(APIView):
         states=pin_state.objects.all()
         serializer=pin_stateSerializer(states,many=True)
         return Response(serializer.data)
+
+
+
+def switch_on_pin1(request):
+    obj1= pin_state.objects.get(pin_no=5)
+    obj1.state = 1
+    obj1.save()
+    return HttpResponse("switch ON now")
+
+def switch_off_pin1(request):
+    obj1= pin_state.objects.get(pin_no=5)
+    obj1.state = 0
+    obj1.save()
+    return HttpResponse("switch OFF now")
+
+def switch_on_pin2(request):
+    obj1= pin_state.objects.get(pin_no=4)
+    obj1.state = 1
+    obj1.save()
+    return HttpResponse("switch ON now")
+
+def switch_off_pin2(request):
+    obj1= pin_state.objects.get(pin_no=4)
+    obj1.state = 0
+    obj1.save()
+    return HttpResponse("switch OFF now")
+
+def switch_on_pin3(request):
+    obj1= pin_state.objects.get(pin_no=14)
+    obj1.state = 1
+    obj1.save()
+    return HttpResponse("switch ON now")
+
+def switch_off_pin3(request):
+    obj1= pin_state.objects.get(pin_no=14)
+    obj1.state = 0
+    obj1.save()
+    return HttpResponse("switch OFF now")
+
+def switch_on_pin4(request):
+    obj1= pin_state.objects.get(pin_no=12)
+    obj1.state = 1
+    obj1.save()
+    return HttpResponse("switch ON now")
+
+def switch_off_pin4(request):
+    obj1= pin_state.objects.get(pin_no=12)
+    obj1.state = 0
+    obj1.save()
+    return HttpResponse("switch OFF now")

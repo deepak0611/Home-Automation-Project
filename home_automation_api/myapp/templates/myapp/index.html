@@ -20,9 +20,9 @@
 
 
 
-    <div class="container" style="position:relative;">
-        <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>
-        <hr>
+<div class="container" style="position:relative;">
+    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>
+    <hr>
 
 
 <div class="row">
@@ -43,7 +43,6 @@
                     </svg>
                     </div>
 
-
                     <div class="switch_off" onclick="change_state({{i.id}},{{i.pin_no}},0)">
                     <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="grey" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
@@ -51,16 +50,11 @@
                     </svg>
                     </div>
 
-
                      {% if i.state %}
                         <script>show_switch_on({{i.id}});</script>
                      {% else %}
                         <script>show_switch_off({{i.id}});</script>
                     {% endif %}
-
-
-
-
 
                  </div>
              </div>
@@ -68,7 +62,6 @@
              <br>
              <h6>Scheduled on/off</h6>
              <hr style="margin-top:1px;margin-bottom:1px;">
-
 
              <div class="schedule_on">
                  <p style="color:green;margin-bottom:5px;margin-top:5px;">Schedule start at <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span> </p>
@@ -83,22 +76,16 @@
                  <button type="button" class="btn" style="background-color:hsl(151, 100%, 67%);margin-top:10px;" onclick="display_sti({{i.id}})">Set Schedule</button>
              </div>
 
-
-
              {% if i.schedule_status %}
                 <script>show_schedule_on({{i.id}});</script>
              {% else %}
                 <script>show_schedule_off({{i.id}});</script>
-
              {% endif %}
-
-
 
              <div class="schedule_time_input">
 
-             <p style="margin-top:10px;margin-bottom:10px;color:red;">*Use 24-hour format</p>
+            <p style="margin-top:10px;margin-bottom:10px;color:red;">*Use 24-hour format</p>
             <h6 style="margin-top:0px;">Set start time</h6>
-
 
             <input type="number" name="sh" class="sh" min="0" max="23" value="{{i.start_hr}}">&nbsp;Hr&nbsp;&nbsp;
             <input type="number" name="sm" class="sm" min="0" max="59" value="{{i.start_min}}">&nbsp;Min
@@ -110,21 +97,13 @@
 
             <button  class="btn" onclick="set_schedule_time({{i.pin_no}},{{i.id}})" style="background-color:hsl(116, 74%, 52%);color:white;padding-left:45px;padding-right:45px;"> Set </button>
 
-
             </div>
 
-
         </div>
-
 {% endfor %}
 </div>
 
-
-
-
-
 </div>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
