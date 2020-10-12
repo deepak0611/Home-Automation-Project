@@ -14,9 +14,9 @@ def index(request):
 
     return render(request,'myapp/index.html',{'pin':obj1})
 
-def change_state(request,pin_no):
+def change_state(request,pin_no,interrupt):
     obj1= pin_state.objects.get(pin_no=pin_no)
-
+    obj1.interrupt=interrupt
     if obj1.state == 1:
         obj1.state=0
     else:
@@ -26,7 +26,7 @@ def change_state(request,pin_no):
     return redirect('/')
 
 
-# def switch_state_change_on_action(request):
+# def switch_state_change_on_scheduled_time(request):
 #     x = time.localtime(time.time())
 #     z = time.strftime("%I:%M %p", x)
 #     y = time.strftime("%d-%m-%Y", x)
@@ -50,11 +50,12 @@ def change_state(request,pin_no):
 def set_schedule_time(request,pin_no,sh,sm,eh,em):
     obj1= pin_state.objects.get(pin_no=pin_no)
 
-    obj1.start_hr=sh;
-    obj1.start_min=sm;
-    obj1.end_hr=eh;
-    obj1.end_min=em;
-    obj1.schedule_status=1;
+    obj1.start_hr=sh
+    obj1.start_min=sm
+    obj1.end_hr=eh
+    obj1.end_min=em
+    obj1.schedule_status=1
+    obj1.interrupt=0
     obj1.save()
 
     return redirect('/')
@@ -62,7 +63,8 @@ def set_schedule_time(request,pin_no,sh,sm,eh,em):
 
 def remove_schedule_time(request,pin_no):
     obj1=pin_state.objects.get(pin_no=pin_no)
-    obj1.schedule_status=0;
+    obj1.schedule_status=0
+    obj1.interrupt=0
     obj1.save()
     return redirect('/')
 
@@ -79,12 +81,18 @@ class pin_state_list(APIView):
 
 def control_with_google_assistant(request,id,cmd):
     obj1=pin_state.objects.get(id=id)
+    obj1.interrupt=1
     if(cmd=="off"):
         obj1.state=0
     else:
-        obj1.state=1;
+        obj1.state=1
 
     obj1.save()
     return HttpResponse("request executed successfully!")
 
 
+def interrupt_handler(request,pin_no):
+    obj1=pin_state.objects.get(pin_no=pin_no)
+    obj1.interrupt=0
+    obj1.save()
+    return HttpResponse("interrupt changed to False")

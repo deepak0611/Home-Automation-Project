@@ -21,23 +21,27 @@
     <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>
     <hr>
 
+    <p>Time now is : <span id="show_time"></span></p>
+
+
     <div class="row">
     {% for i in pin %}
              <div class="col-lg-5 col-sm-11 switch_box">
                  <div class="row">
                      <div class="col-9">
                          <h4 style="color:SlateBlue;">{{i.pin_name}}</h4>
+
                      </div>
                      <div class="col-3">
 
-                         <div class="switch_on" onclick="change_state({{i.id}},{{i.pin_no}},1)">
+                         <div class="switch_on" onclick="change_state({{i.id}},{{i.pin_no}},1,1)">
                         <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="orange" xmlns="http://www.w3.org/2000/svg">
                           <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
                           <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
                         </svg>
                         </div>
 
-                        <div class="switch_off" onclick="change_state({{i.id}},{{i.pin_no}},0)">
+                        <div class="switch_off" onclick="change_state({{i.id}},{{i.pin_no}},0,1)">
                         <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="grey" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
                           <path fill-rule="evenodd" d="M5 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"/>
@@ -58,8 +62,12 @@
                  <hr style="margin-top:1px;margin-bottom:1px;">
 
                  <div class="schedule_on">
-                     <p style="color:green;margin-bottom:5px;margin-top:5px;">Schedule start at <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span> </p>
-                     <p style="color:green;margin-bottom:10px;margin-top:0px;">Schedule end at <span class="eh_s">{{i.end_hr}}</span>:<span class="em_s">{{i.end_min}}</span>  </p>
+                     <p class="interrupt_alerter" style="margin-bottom:1px;display:none;"><span style="color:red;">Schedule interrupted!</span>
+                         <span onclick="interrupt_handler({{i.pin_no}})" style="color:blue;cursor:pointer;">click here to resume</span>
+                     </p>
+
+                     <p style="color:green;margin-bottom:5px;margin-top:5px;">Scheduled from <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span> </p>
+                     <p style="color:green;margin-bottom:10px;margin-top:0px;">Scheduled till <span class="eh_s">{{i.end_hr}}</span>:<span class="em_s">{{i.end_min}}</span>  </p>
                     <button type="button" class="btn" style="background-color:hsl(220, 100%, 67%);color:white;margin-right:15px;" onclick="display_sti({{i.id}})">Update</button>
 
                     <button type="button" class="btn" onclick="remove_schedule_time({{i.id}},{{i.pin_no}})" style="background-color:hsl(2, 100%, 67%);color:white;" >Remove</button>
@@ -104,7 +112,6 @@
 
 <script>
 check_state();
-
 </script>
 
 
