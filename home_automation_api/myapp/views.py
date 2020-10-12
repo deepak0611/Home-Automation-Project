@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-
+import time
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -24,6 +24,15 @@ def change_state(request,pin_no):
 
     obj1.save()
     return redirect('/')
+
+
+# def switch_state_change_on_action(request):
+#     x = time.localtime(time.time())
+#     z = time.strftime("%I:%M %p", x)
+#     y = time.strftime("%d-%m-%Y", x)
+
+
+
 
 
 # def set_schedule_time(request,pin_no):
@@ -67,50 +76,15 @@ class pin_state_list(APIView):
 
 
 
-def switch_on_pin1(request):
-    obj1= pin_state.objects.get(pin_no=5)
-    obj1.state = 1
-    obj1.save()
-    return HttpResponse("switch ON now")
 
-def switch_off_pin1(request):
-    obj1= pin_state.objects.get(pin_no=5)
-    obj1.state = 0
-    obj1.save()
-    return HttpResponse("switch OFF now")
+def control_with_google_assistant(request,id,cmd):
+    obj1=pin_state.objects.get(id=id)
+    if(cmd=="off"):
+        obj1.state=0
+    else:
+        obj1.state=1;
 
-def switch_on_pin2(request):
-    obj1= pin_state.objects.get(pin_no=4)
-    obj1.state = 1
     obj1.save()
-    return HttpResponse("switch ON now")
+    return HttpResponse("request executed successfully!")
 
-def switch_off_pin2(request):
-    obj1= pin_state.objects.get(pin_no=4)
-    obj1.state = 0
-    obj1.save()
-    return HttpResponse("switch OFF now")
 
-def switch_on_pin3(request):
-    obj1= pin_state.objects.get(pin_no=14)
-    obj1.state = 1
-    obj1.save()
-    return HttpResponse("switch ON now")
-
-def switch_off_pin3(request):
-    obj1= pin_state.objects.get(pin_no=14)
-    obj1.state = 0
-    obj1.save()
-    return HttpResponse("switch OFF now")
-
-def switch_on_pin4(request):
-    obj1= pin_state.objects.get(pin_no=12)
-    obj1.state = 1
-    obj1.save()
-    return HttpResponse("switch ON now")
-
-def switch_off_pin4(request):
-    obj1= pin_state.objects.get(pin_no=12)
-    obj1.state = 0
-    obj1.save()
-    return HttpResponse("switch OFF now")

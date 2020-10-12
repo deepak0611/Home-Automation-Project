@@ -82,5 +82,39 @@ function remove_schedule_time(id_no,pin_no){
   xhttp.open("GET", "remove_schedule_time/"+pin_no, true);
   xhttp.send();
 
+}
 
+
+
+
+function check_state(){
+    var myvar=setInterval(deepak, 1000);
+}
+
+function deepak(){
+  var xhttp;
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var obj=JSON.parse(this.responseText);
+        var i=0;
+        for(i=0;i<4;i++){
+            var myjson=obj[i];
+            dynamic_state_change(myjson.id,myjson.pin_no,myjson.state);
+        }
+    }
+  };
+  xhttp.open("GET", "pin_state/", true);
+  xhttp.send();
+}
+
+function dynamic_state_change(id_no,pin_no,flag) {
+    if(!flag){
+        document.getElementsByClassName("switch_on")[id_no-1].style.display="none";
+        document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
+    }
+    else{
+        document.getElementsByClassName("switch_off")[id_no-1].style.display="none";
+        document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
+    }
 }
