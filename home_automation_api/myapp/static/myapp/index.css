@@ -3,12 +3,40 @@
  }
 
 
+
+.detail_shower_div{
+    padding:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+    font-size:24px;
+    margin-left:0px;
+    color:white;
+   /* background-color: #e5ffff;*/
+   background-color: #ff6666;
+   border-radius:10px;
+   /*max-width:88%;*/
+
+   /*border-left-width:3px;
+    border-left-style:solid;
+    border-left-color:red;*/
+
+}
+
+
+
 .switch_box{
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 1px 1px 3px Orange;
-    margin: 15px;
+    border-radius: 5px;
+    /*box-shadow: 1px 1px 3px Orange;*/
+   /* background-color:	#e5ffff;*/
+    margin-bottom: 15px;
+    margin-top: 15px;
+    margin-right:auto;
+    margin-left:auto;
     padding: 20px;
+    border-left-width:3px;
+    border-left-style:solid;
+    border-left-color:green;
 
 
 }
@@ -31,6 +59,8 @@ input{
 }
 body{
     /*background-color: hsl(0, 100%, 75%);*/
+    padding:0px;
+    background-color:#eef6f4;
 }
 
 

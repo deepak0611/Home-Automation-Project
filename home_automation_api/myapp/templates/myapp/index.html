@@ -6,7 +6,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
@@ -16,12 +15,21 @@
   </head>
   <body>
 
-
-<div class="container" style="position:relative;">
-    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>
+<div class="container" style="position:relative;background-color:#eef6f4;">
+<!--    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>-->
+    <h2 style="margin-top:10px;">Home Automation</h2>
     <hr>
 
-    <p>Time now is : <span id="show_time"></span></p>
+   <div class="container detail_shower_div">
+      <span style="margin-right:10px;">Time:  <span id="show_time"></span> </span>
+       <span style="margin-right:10px;">Temperature: 98 F </span>
+       <span style="margin-right:10px;"> Humidity: 10% </span>
+   </div>
+
+<div class="container-fluid">
+<!--    <p>Time now is : <span id="show_time"></span></p>-->
+
+
 
 
     <div class="row">
@@ -35,7 +43,7 @@
                      <div class="col-3">
 
                          <div class="switch_on" onclick="change_state({{i.id}},{{i.pin_no}},1,1)">
-                        <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="orange" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="blue" xmlns="http://www.w3.org/2000/svg">
                           <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
                           <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
                         </svg>
@@ -63,7 +71,7 @@
 
                  <div class="schedule_on">
                      <p class="interrupt_alerter" style="margin-bottom:1px;display:none;"><span style="color:red;">Schedule interrupted!</span>
-                         <span onclick="interrupt_handler({{i.pin_no}})" style="color:blue;cursor:pointer;">click here to resume</span>
+                         <span onclick="interrupt_handler({{i.pin_no}},{{i.id}})" style="color:blue;cursor:pointer;">click here to resume</span>
                      </p>
 
                      <p style="color:green;margin-bottom:5px;margin-top:5px;">Scheduled from <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span> </p>
@@ -109,13 +117,11 @@
 </div>
 
 
+</div>
 
 <script>
 check_state();
 </script>
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
