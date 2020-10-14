@@ -9,21 +9,20 @@ function change_state(id_no,pin_no,flag,interrupt) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        if(flag){
-            document.getElementsByClassName("switch_on")[id_no-1].style.display="none";
-            document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
-//            document.getElementsByClassName("switch_box")[id_no-1].style.boxShadow="none";
-            document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="green";
-        }
-        else{
+        if(flag==1){
             document.getElementsByClassName("switch_off")[id_no-1].style.display="none";
             document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
-//            document.getElementsByClassName("switch_box")[id_no-1].style.boxShadow="5px 5px 10px Orange";
             document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="blue";
+
+        }
+        else{
+            document.getElementsByClassName("switch_on")[id_no-1].style.display="none";
+            document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
+            document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="green";
         }
     }
   };
-  xhttp.open("GET", "change_state/"+pin_no+"/"+interrupt, true);
+  xhttp.open("GET", "change_state/"+pin_no+"/"+interrupt+"/"+flag, true);
   xhttp.send();
 }
 
@@ -55,6 +54,7 @@ function set_schedule_time(pin_no,id_no){
         document.getElementsByClassName("schedule_off")[id_no-1].style.display="none";
         document.getElementsByClassName("schedule_on")[id_no-1].style.display="block";
         document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
+        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
 
         document.getElementsByClassName("sh_s")[id_no-1].innerHTML=sh;
         document.getElementsByClassName("sm_s")[id_no-1].innerHTML=sm;
@@ -74,11 +74,17 @@ function remove_schedule_time(id_no,pin_no){
         document.getElementsByClassName("schedule_off")[id_no-1].style.display="block";
         document.getElementsByClassName("schedule_on")[id_no-1].style.display="none";
         document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
+        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
     }
   };
   xhttp.open("GET", "remove_schedule_time/"+pin_no, true);
   xhttp.send();
 }
+
+
+
+
+
 
 
 function check_state(){
@@ -101,8 +107,20 @@ function deepak(){
     if (this.readyState == 4 && this.status == 200) {
         var obj=JSON.parse(this.responseText);
         var i=0;
+
+
+
+
+
+
+
+
+
+
         for(i=0;i<4;i++){
             var myjson=obj[i];
+
+
 
             if(myjson.schedule_status){
                   var f=0;
@@ -129,37 +147,67 @@ function deepak(){
 
 
                 if(f==1){
-
+                    console.log("inside schedule time");
                     if(myjson.interrupt==1){
                         document.getElementsByClassName("interrupt_alerter")[i].style.display="block";
                     }
                     else{
+                        document.getElementsByClassName("interrupt_alerter")[i].style.display="none";
                         if(myjson.state==0){
-                            change_state(i+1,myjson.pin_no,0,0);
+                            console.log("change_State from sh");
+                            change_state(i+1,myjson.pin_no,1,0);
                         }
-                        else if(h==myjson.end_hr && m==myjson.end_min && s==59){
-                            if(myjson.state==1){
-                                change_state(i+1,myjson.pin_no,1,0);
-                            }
+                        if(h==myjson.end_hr && m==myjson.end_min && s==59){
+//                            if(myjson.state==1){
+                                console.log("change_State from eh");
+                                change_state(i+1,myjson.pin_no,0,0);
+//                            }
                         }
                     }
                 }
                 else{
+                //This code is working fine -> outside schedule time everything is fine
+                    console.log("outside schedule time");
                     document.getElementsByClassName("interrupt_alerter")[i].style.display="none";
                     if(myjson.interrupt==1){
+                        console.log("I am here to handle interrupt");
                         interrupt_handler(myjson.pin_no,myjson.id );
                     }
 
                 }
 
             }
+
+
             dynamic_state_change(myjson.id,myjson.state);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
   };
   xhttp.open("GET", "pin_state/", true);
   xhttp.send();
 }
+
+
+
+
+
+
+
+
 
 
 // dynamically check for state_of_pin for each pin and respond the same on webpage
