@@ -11,7 +11,14 @@ class pin_state(models.Model):
     start_min = models.IntegerField(default=0)
     end_hr = models.IntegerField(default=0)
     end_min = models.IntegerField(default=0)
-
+    toggler = models.CharField(max_length=3,default="bc") #tells who control the switch
 
     def __str__(self):
         return self.pin_name
+
+class hardware(models.Model):
+    name = models.CharField(max_length=50)
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

@@ -2,7 +2,14 @@
     box-sizing: border-box;
  }
 
-
+#hardware_connection{
+    padding :5px;
+    color:white;
+    font-size:12px;
+    font-weight:bold;
+    background-color:red;
+    border-radius:25px;
+}
 
 .detail_shower_div{
     padding:20px;
@@ -10,9 +17,9 @@
     margin-bottom:10px;
     font-size:24px;
     margin-left:0px;
-    color:white;
-   /* background-color: #e5ffff;*/
-   background-color: #ff6666;
+    /*color:white;*/
+    background-color: #e5ffff;
+   /*background-color: #ff6666;*/
    border-radius:10px;
    /*max-width:88%;*/
 
@@ -39,6 +46,35 @@
     border-left-color:green;
 
 
+}
+
+.pin_name_input{
+    border-width: 0px;
+    border-style: none;
+    border-color: white;
+
+    border-bottom-width:2px;
+    border-bottom-color:SlateBlue;
+    border-bottom-style:solid;
+    border-radius:0px;
+    width:150px;
+    display:none;
+}
+.edit_pin_name{
+    cursor:pointer;
+}
+.submit_pin_name{
+    cursor:pointer;
+    display:none;
+}
+
+.gac_notifier{
+    padding:5px;
+    color:white;
+    background-color: #0088cc;
+    border-radius:25px;
+    font-size:12px;
+    font-weight:bold;
 }
 
 input{

@@ -2,14 +2,37 @@
 function display_sti(id){
     document.getElementsByClassName("schedule_time_input")[id-1].style.display="block";
 }
+//check toggler
+function toggledBy(state,id_no){
+    var onoff;
+    if(state==1){onoff="ON";}
+    else{onoff="OFF"}
+    if(document.getElementsByClassName("gac_value")[id_no-1].textContent=="bc"){
+        document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" from browser";
+    }
+    else if(document.getElementsByClassName("gac_value")[id_no-1].textContent=="sc"){
+        document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" according to schedule";
+    }
+    else{
+        document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" by google assisstant";
+    }
+}
+
+
+
+
+
+
+
+
 // Toggle on/off state of a pin
-function change_state(id_no,pin_no,flag,interrupt) {
+function change_state(id_no,pin_no,to_state,interrupt) {
    console.log("change_state");
   var xhttp;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        if(flag==1){
+        if(to_state==1){
             document.getElementsByClassName("switch_off")[id_no-1].style.display="none";
             document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
             document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="blue";
@@ -20,9 +43,24 @@ function change_state(id_no,pin_no,flag,interrupt) {
             document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
             document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="green";
         }
+
+        //change toggler
+        var onoff;
+        if(to_state==1){onoff="ON";}
+        else{onoff="OFF"}
+        if(interrupt==1){
+            document.getElementsByClassName("gac_value")[id_no-1].innerHTML= "bc";
+            document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" from browser";
+        }
+        else{
+            document.getElementsByClassName("gac_value")[id_no-1].innerHTML= "sc";
+            document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" according to schedule";
+        }
+
+
     }
   };
-  xhttp.open("GET", "change_state/"+pin_no+"/"+interrupt+"/"+flag, true);
+  xhttp.open("GET", "change_state/"+pin_no+"/"+interrupt+"/"+to_state, true);
   xhttp.send();
 }
 
@@ -114,11 +152,22 @@ function deepak(){
 
 
 
-
-
-
         for(i=0;i<4;i++){
             var myjson=obj[i];
+//            document.getElementById("gac_notifier").innerHTML+= "<br>I am not getting correctly";
+
+
+            if((myjson.toggler) == "gac"){
+                document.getElementsByClassName("gac_value")[i].innerHTML= (myjson.toggler) ;
+                var onoff;
+                if(myjson.state==1){onoff="ON";}
+                else{onoff="OFF"}
+                document.getElementsByClassName("gac_notifier")[i].innerHTML= "Switch "+(i+1).toString() + " turned " + onoff +" by google assisstant";
+            }
+//            else{
+//                document.getElementsByClassName("gac_notifier")[i].innerHTML= "";
+//            }
+
 
 
 
@@ -235,4 +284,61 @@ function interrupt_handler(pin_no,id){
       };
       xhttp.open("GET", "interrupt_handler/"+pin_no, true);
       xhttp.send();
+}
+
+
+
+
+
+function for_hardware(){
+    var myvar2=setInterval(hardware_checker, 1000);
+}
+
+function hardware_checker(){
+    var xhttp;
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if(document.getElementById("hardware_status").textContent == this.responseText){
+                document.getElementById("hardware_connection").innerHTML="Hardware not connected";
+                document.getElementById("hardware_connection").style.backgroundColor="red";
+            }
+            else{
+                document.getElementById("hardware_connection").innerHTML="Hardware connected";
+                document.getElementById("hardware_connection").style.backgroundColor="green";
+                document.getElementById("hardware_status").innerHTML = this.responseText;
+            }
+        }
+      };
+      xhttp.open("GET", "hardware_status/", true);
+      xhttp.send();
+}
+
+
+function pin_name_editor(id_no){
+    document.getElementsByClassName("pin_name")[id_no-1].style.display="none";
+    document.getElementsByClassName("edit_pin_name")[id_no-1].style.display="none";
+    document.getElementsByClassName("pin_name_input")[id_no-1].style.display="inline";
+    document.getElementsByClassName("submit_pin_name")[id_no-1].style.display="inline";
+}
+
+function pin_name_submitter(id_no){
+    var new_name= document.getElementsByClassName("pin_name_input")[id_no-1].value;
+    document.getElementsByClassName("pin_name_input")[id_no-1].style.display="none";
+    document.getElementsByClassName("submit_pin_name")[id_no-1].style.display="none";
+
+    document.getElementsByClassName("pin_name")[id_no-1].innerHTML= new_name;
+    document.getElementsByClassName("pin_name")[id_no-1].style.display="inline-block";
+    document.getElementsByClassName("edit_pin_name")[id_no-1].style.display="inline";
+
+      var xhttp;
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+        }
+      };
+      xhttp.open("GET", "change_pin_name/"+id_no+"/"+new_name, true);
+      xhttp.send();
+
 }

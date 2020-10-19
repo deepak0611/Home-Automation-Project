@@ -11,12 +11,19 @@ from .serializers import pin_stateSerializer
 
 def index(request):
     obj1 = pin_state.objects.all()
-
-    return render(request, 'myapp/index.html', {'pin': obj1})
+    obj2 = hardware.objects.get(id=1)
+    # return render(request, 'myapp/index.html', {'pin': obj1})
+    return render(request, 'myapp/index.html', {'pin': obj1,'hardware':obj2})
 
 
 def change_state(request, pin_no, interrupt, flag):
     obj1 = pin_state.objects.get(pin_no=pin_no)
+
+    if(interrupt):
+        obj1.toggler="bc"
+    else :
+        obj1.toggler="sc"
+
     if (obj1.schedule_status):
         obj1.interrupt = interrupt
     else:
@@ -27,6 +34,12 @@ def change_state(request, pin_no, interrupt, flag):
     obj1.save()
     return redirect('/')
 
+
+def change_pin_name(request,id,new_name):
+    obj1=pin_state.objects.get(id=id)
+    obj1.pin_name = new_name.capitalize()
+    obj1.save()
+    return HttpResponse("new pin name saved successfully!")
 
 # def switch_state_change_on_scheduled_time(request):
 #     x = time.localtime(time.time())
@@ -71,14 +84,36 @@ def remove_schedule_time(request, pin_no):
 class pin_state_list(APIView):
 
     def get(self, request):
+
         states = pin_state.objects.all()
         serializer = pin_stateSerializer(states, many=True)
         return Response(serializer.data)
 
 
+
+def hardware_status_manager(request):
+    obj1 = hardware.objects.get(id=1)
+    if (obj1.status):
+        obj1.status = 0
+    else:
+        obj1.status = 1
+    obj1.save()
+
+    return HttpResponse("response sent!")
+
+
+def hardware_status(request):
+    obj1 = hardware.objects.get(id=1)
+    return HttpResponse(obj1.status)
+
+
+
 def control_with_google_assistant(request, id, cmd):
     obj1 = pin_state.objects.get(id=id)
     # obj1.interrupt=1
+
+    obj1.toggler = "gac"
+
 
     if (obj1.schedule_status):
         obj1.interrupt = 1
