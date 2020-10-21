@@ -18,14 +18,16 @@ def index(request):
 
 def change_state(request, pin_no, interrupt, flag):
     obj1 = pin_state.objects.get(pin_no=pin_no)
-
-    if(interrupt):
+    print(interrupt)
+    if(int(interrupt)==int(1)):
         obj1.toggler="bc"
     else :
         obj1.toggler="sc"
 
+    print(obj1.toggler)
+
     if (obj1.schedule_status):
-        obj1.interrupt = interrupt
+        obj1.interrupt = bool(interrupt)
     else:
         obj1.interrupt = 0
 
@@ -93,10 +95,7 @@ class pin_state_list(APIView):
 
 def hardware_status_manager(request):
     obj1 = hardware.objects.get(id=1)
-    if (obj1.status):
-        obj1.status = 0
-    else:
-        obj1.status = 1
+    obj1.status = obj1.status +1
     obj1.save()
 
     return HttpResponse("response sent!")

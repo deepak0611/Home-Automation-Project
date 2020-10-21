@@ -291,7 +291,8 @@ function interrupt_handler(pin_no,id){
 
 
 function for_hardware(){
-    var myvar2=setInterval(hardware_checker, 1000);
+    hardware_checker();
+    var myvar2=setInterval(hardware_checker, 3000);
 }
 
 function hardware_checker(){
@@ -299,7 +300,7 @@ function hardware_checker(){
       xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            if(document.getElementById("hardware_status").textContent == this.responseText){
+            if(parseInt(document.getElementById("hardware_status").textContent) == parseInt(this.responseText)){
                 document.getElementById("hardware_connection").innerHTML="Hardware not connected";
                 document.getElementById("hardware_connection").style.backgroundColor="red";
             }
