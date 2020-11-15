@@ -7,11 +7,45 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import pin_stateSerializer
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
+
+
+def signup(request):
+    if(request.method == 'POST'):
+        username = request.POST.get("username")
+        password = request.POST.get("password1")
+        email = request.POST.get("email")
+        user = User.objects.create_user(username,email,password)
+        user.save()
+        return  redirect(index)
+
+    return render(request,'myapp/signup.html')
+
+def loginuser(request):
+    if(request.method == 'POST'):
+        username = request.POST.get("username")
+        password = request.POST.get("password1")
+        user = authenticate(username = username,password = password)
+        if user is not None:
+            login(request,user)
+
+    return redirect(index)
+
+def logoutuser(request):
+    if(request.method=="POST"):
+        logout(request)
+        return redirect(index)
 
 
 def index(request):
     obj1 = pin_state.objects.all()
     obj2 = hardware.objects.get(id=1)
+    # if(request.user.is_anonymous):
+    #     # return redirect(loginuser)
+    #     print(request.user)
+    #     return render(request, 'myapp/login.html',{'hardware':obj2,'anonymous':True})
+
     # return render(request, 'myapp/index.html', {'pin': obj1})
     return render(request, 'myapp/index.html', {'pin': obj1,'hardware':obj2})
 
@@ -24,12 +58,14 @@ def change_state(request, pin_no, interrupt, flag):
     else :
         obj1.toggler="sc"
 
-    print(obj1.toggler)
+
 
     if (obj1.schedule_status):
         obj1.interrupt = bool(interrupt)
     else:
         obj1.interrupt = 0
+
+    print(obj1.interrupt)
 
     obj1.state = flag
 
@@ -93,9 +129,11 @@ class pin_state_list(APIView):
 
 
 
-def hardware_status_manager(request):
+def hardware_status_manager(request,temp,humid):
     obj1 = hardware.objects.get(id=1)
     obj1.status = obj1.status +1
+    obj1.temp = temp
+    obj1.humid =humid
     obj1.save()
 
     return HttpResponse("response sent!")
@@ -104,6 +142,13 @@ def hardware_status_manager(request):
 def hardware_status(request):
     obj1 = hardware.objects.get(id=1)
     return HttpResponse(obj1.status)
+
+
+def hardware_reseter(request):
+    obj1 = hardware.objects.get(id=1)
+    obj1.status = 0
+    obj1.save()
+    return HttpResponse("reset successful!")
 
 
 
@@ -133,3 +178,6 @@ def interrupt_handler(request, pin_no):
     obj1.interrupt = 0
     obj1.save()
     return HttpResponse("interrupt changed to False")
+
+def notify_with_email():
+    pass

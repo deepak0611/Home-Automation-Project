@@ -291,7 +291,6 @@ function interrupt_handler(pin_no,id){
 
 
 function for_hardware(){
-    hardware_checker();
     var myvar2=setInterval(hardware_checker, 3000);
 }
 
@@ -303,6 +302,8 @@ function hardware_checker(){
             if(parseInt(document.getElementById("hardware_status").textContent) == parseInt(this.responseText)){
                 document.getElementById("hardware_connection").innerHTML="Hardware not connected";
                 document.getElementById("hardware_connection").style.backgroundColor="red";
+                document.getElementById("hardware_status").innerHTML = "0";
+                hardware_reseter();
             }
             else{
                 document.getElementById("hardware_connection").innerHTML="Hardware connected";
@@ -313,6 +314,19 @@ function hardware_checker(){
       };
       xhttp.open("GET", "hardware_status/", true);
       xhttp.send();
+}
+
+function hardware_reseter(){
+    var xhttp;
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+        }
+      };
+      xhttp.open("GET", "hardware_reseter/", true);
+      xhttp.send();
+
 }
 
 

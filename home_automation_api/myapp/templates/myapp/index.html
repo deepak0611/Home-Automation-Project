@@ -17,7 +17,17 @@
 
 <div class="container" style="position:relative;background-color:#eef6f4;">
 <!--    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>-->
-    <h2 style="margin-top:10px;">Home Automation</h2>
+    <div style="dispaly:block;">
+        <h2 style="margin-top:10px;display:inline-block;">Home Automation</h2>
+<!--        <div style="display:inline-block;float:right;margin-top:10px;">-->
+<!--            <form method="post" action="logout/">-->
+<!--                {% csrf_token %}-->
+<!--                <button class="btn" type="submit"><small>logout</small></button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+    </div>
+
     <hr>
 
     <span id="hardware_connection">Hardware not connected </span><span id="hardware_status" style="display:none;">{{hardware.status}}</span>

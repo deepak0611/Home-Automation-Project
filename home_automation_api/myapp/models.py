@@ -19,6 +19,8 @@ class pin_state(models.Model):
 class hardware(models.Model):
     name = models.CharField(max_length=50)
     status = models.IntegerField(default=0)
+    temp = models.CharField(max_length=50,default="0")
+    humid = models.CharField(max_length=50,default="0")
 
     def __str__(self):
         return self.name
