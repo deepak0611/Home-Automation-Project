@@ -9,6 +9,8 @@ from .models import *
 from .serializers import pin_stateSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def signup(request):
@@ -18,19 +20,30 @@ def signup(request):
         email = request.POST.get("email")
         user = User.objects.create_user(username,email,password)
         user.save()
+        subject = "Welcome to home automation!"
+        message = f'we are very happy for you to being part of our community.We assure you for a clean and smooth experience at our platform.\n\nRegards,\nTeam Home Automation'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [user.email]
+        # send_mail(subject, message, email_from, recipient_list)
+        login(request, user)
         return  redirect(index)
 
     return render(request,'myapp/signup.html')
 
 def loginuser(request):
+    obj2 = hardware.objects.get(id=1)
     if(request.method == 'POST'):
         username = request.POST.get("username")
         password = request.POST.get("password1")
         user = authenticate(username = username,password = password)
         if user is not None:
             login(request,user)
+            return redirect(index)
+        else:
+            return render(request, 'myapp/login.html', {'hardware': obj2, 'sign': 1})
 
-    return redirect(index)
+
+    return render(request, 'myapp/login.html',{'hardware':obj2,'sign':0})
 
 def logoutuser(request):
     if(request.method=="POST"):
@@ -41,10 +54,9 @@ def logoutuser(request):
 def index(request):
     obj1 = pin_state.objects.all()
     obj2 = hardware.objects.get(id=1)
-    # if(request.user.is_anonymous):
-    #     # return redirect(loginuser)
-    #     print(request.user)
-    #     return render(request, 'myapp/login.html',{'hardware':obj2,'anonymous':True})
+
+    if(request.user.is_anonymous):
+        return redirect(loginuser)
 
     # return render(request, 'myapp/index.html', {'pin': obj1})
     return render(request, 'myapp/index.html', {'pin': obj1,'hardware':obj2})
@@ -52,20 +64,21 @@ def index(request):
 
 def change_state(request, pin_no, interrupt, flag):
     obj1 = pin_state.objects.get(pin_no=pin_no)
-    print(interrupt)
+    # print(int(interrupt))
     if(int(interrupt)==int(1)):
         obj1.toggler="bc"
     else :
         obj1.toggler="sc"
 
+    # print(bool(interrupt))
 
 
     if (obj1.schedule_status):
-        obj1.interrupt = bool(interrupt)
+        obj1.interrupt = int(interrupt)
     else:
         obj1.interrupt = 0
 
-    print(obj1.interrupt)
+    # print(obj1.interrupt)
 
     obj1.state = flag
 
@@ -132,8 +145,8 @@ class pin_state_list(APIView):
 def hardware_status_manager(request,temp,humid):
     obj1 = hardware.objects.get(id=1)
     obj1.status = obj1.status +1
-    obj1.temp = temp
-    obj1.humid =humid
+    obj1.temp = str(temp)
+    obj1.humid =str(humid)
     obj1.save()
 
     return HttpResponse("response sent!")
@@ -179,5 +192,11 @@ def interrupt_handler(request, pin_no):
     obj1.save()
     return HttpResponse("interrupt changed to False")
 
-def notify_with_email():
-    pass
+def notify_with_email(request):
+    subject = "welcome yo home automation!"
+    message = f'we are very happy for you to being part of our community.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['deepak.16214334@gmail.com','dkumar@ec.iitr.ac.in']
+    send_mail(subject,message,email_from,recipient_list)
+
+    return HttpResponse("email sent!")

@@ -1,9 +1,17 @@
 * {
     box-sizing: border-box;
  }
-
+#username{
+    padding :5px 10px;
+    margin-left:10px;
+    color:white;
+    font-size:12px;
+    font-weight:bold;
+    background-color:green;
+    border-radius:25px;
+}
 #hardware_connection{
-    padding :5px;
+    padding :5px 10px;
     color:white;
     font-size:12px;
     font-weight:bold;
@@ -12,7 +20,8 @@
 }
 
 .detail_shower_div{
-    padding:20px;
+    max-width:630px;
+    padding:10px 20px;
     margin-top:10px;
     margin-bottom:10px;
     font-size:24px;
@@ -69,10 +78,11 @@
 }
 
 .gac_notifier{
-    padding:5px;
+    padding:4px 10px;
     color:white;
     background-color: #0088cc;
-    border-radius:25px;
+    border-top-right-radius:25px;
+    border-bottom-right-radius:25px;
     font-size:12px;
     font-weight:bold;
 }
@@ -118,3 +128,9 @@ body{
     display:none;
 }
 
+#login_div{
+margin-top:20px;
+padding:15px;
+border-radius:10px;
+background-color:white;
+}

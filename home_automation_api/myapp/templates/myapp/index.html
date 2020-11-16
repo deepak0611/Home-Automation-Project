@@ -19,27 +19,30 @@
 <!--    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>-->
     <div style="dispaly:block;">
         <h2 style="margin-top:10px;display:inline-block;">Home Automation</h2>
-<!--        <div style="display:inline-block;float:right;margin-top:10px;">-->
-<!--            <form method="post" action="logout/">-->
-<!--                {% csrf_token %}-->
-<!--                <button class="btn" type="submit"><small>logout</small></button>-->
-<!--            </form>-->
-<!--        </div>-->
+        <div style="display:inline-block;float:right;margin-top:10px;">
+            <form method="post" action="logout/">
+                {% csrf_token %}
+                <button class="btn" type="submit"><small>logout</small></button>
+            </form>
+        </div>
 
     </div>
 
-    <hr>
+    <hr style="margin-top:0px;">
 
     <span id="hardware_connection">Hardware not connected </span><span id="hardware_status" style="display:none;">{{hardware.status}}</span>
+    <span id="username"> Hello {{request.user}} </span>
 
 
    <div class="container detail_shower_div">
-      <span style="margin-right:10px;">Time:  <span id="show_time"></span> </span>
-       <span style="margin-right:10px;">Temperature: 98 F </span>
-       <span style="margin-right:10px;"> Humidity: 10% </span>
+      <div style="margin-right:10px;display:inline-block;">Time:  <span id="show_time"></span> </div>
+       <div style="margin-right:10px;display:inline-block;">Temperature: {{hardware.temp}}&#8451; </div>
+       <div style="margin-right:10px;display:inline-block;"> Humidity: {{hardware.humid}} % </div>
+
    </div>
 
-<div class="container-fluid">
+
+<div class="container-fluid" >
 <!--    <p>Time now is : <span id="show_time"></span></p>-->
 
 
@@ -95,10 +98,10 @@
 
                      </div>
                  </div>
-                 <br>
 
-                 <span class="gac_notifier"></span><br>
-
+                 <div style="margin:15px 0px;">
+                 <span class="gac_notifier"></span>
+                 </div>
                  {% if i.state %}
                     <script>toggledBy(1,{{i.id}});</script>
                  {% else %}
@@ -106,7 +109,7 @@
                  {% endif %}
 
 
-                 <br>
+
 
 
                  <h6>Scheduled on/off</h6>

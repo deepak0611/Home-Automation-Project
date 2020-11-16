@@ -22,33 +22,35 @@
   <div class="container" style="position:relative;background-color:#eef6f4;">
 <!--    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>-->
     <h2 style="margin-top:10px;">Home Automation</h2>
-    <hr>
-
-    <div class="alert alert-light" role="alert">
-        You need to login in order to control switches.
-    </div>
-
-
+    <hr style="margin-top:0px;">
 
 
     <span id="hardware_connection">Hardware not connected </span><span id="hardware_status" style="display:none;">{{hardware.status}}</span>
 
 
    <div class="container detail_shower_div">
-      <span style="margin-right:10px;">Time:  <span id="show_time"></span> </span>
-       <span style="margin-right:10px;">Temperature: 98 F </span>
-       <span style="margin-right:10px;"> Humidity: 10% </span>
+      <div style="margin-right:10px;display:inline-block;">Time:  <span id="show_time"></span> </div>
+       <div style="margin-right:10px;display:inline-block;">Temperature: {{hardware.temp}}&#8451; </div>
+       <div style="margin-right:10px;display:inline-block;"> Humidity: {{hardware.humid}} % </div>
    </div>
 
-<!--  <form action="login/" method="post">-->
-<!--        {% csrf_token %}-->
-<!--        username: <input type="text" name="username"><br>-->
-<!--        password: <input type="password" name="password1"><br>-->
-<!--        <input type="submit">-->
-<!--  </form>-->
+   <div class="alert alert-light" role="alert">
+        You need to login in order to control switches.
+    </div>
 
 
-  <form action="login/" method="post">
+<div id="login_div">
+  <h4>Login</h4>
+    <hr>
+
+    {% if sign is 1 %}
+        <div class="alert alert-warning" role="alert">
+          Username or password is incorrect!
+        </div>
+    {% endif %}
+
+
+  <form action="" method="post">
       {% csrf_token %}
   <div class="form-group">
     <label for="exampleInputEmail1">Username</label>
@@ -59,14 +61,29 @@
     <input type="password" name="password1" class="form-control" id="exampleInputPassword1">
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 
+
+  <button type="submit" class="btn btn-primary" style="width:100%;">Submit</button>
+</form>
+  <center><p style="margin-top:10px;margin-bottom:0px;">don't have account? <a href="../signup/">create account here</a></p></center>
+</div>
 
 </div>
 
 
+<script>
+check_time();
+    function check_time(){
+        deepak();
+        var myvar=setInterval(deepak, 1000);
+    }
 
+    function deepak(){
+        var d = new Date();
+        var n = d.toLocaleTimeString();
+        document.getElementById("show_time").innerHTML=n;
+    }
+</script>
 
 
 

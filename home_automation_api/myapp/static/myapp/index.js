@@ -1,3 +1,5 @@
+
+
 // function to display "set_time_schedule" class on button click
 function display_sti(id){
     document.getElementsByClassName("schedule_time_input")[id-1].style.display="block";
@@ -21,13 +23,11 @@ function toggledBy(state,id_no){
 
 
 
-
-
-
-
 // Toggle on/off state of a pin
 function change_state(id_no,pin_no,to_state,interrupt) {
    console.log("change_state");
+//   console.log(typeof to_state)
+//   console.log(typeof interrupt)
   var xhttp;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -36,12 +36,13 @@ function change_state(id_no,pin_no,to_state,interrupt) {
             document.getElementsByClassName("switch_off")[id_no-1].style.display="none";
             document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
             document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="blue";
-
+            console.log("turning switch on");
         }
         else{
             document.getElementsByClassName("switch_on")[id_no-1].style.display="none";
             document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
             document.getElementsByClassName("switch_box")[id_no-1].style.borderLeftColor="green";
+            console.log("turning switch off");
         }
 
         //change toggler
@@ -49,10 +50,12 @@ function change_state(id_no,pin_no,to_state,interrupt) {
         if(to_state==1){onoff="ON";}
         else{onoff="OFF"}
         if(interrupt==1){
+            console.log("interrupt found");
             document.getElementsByClassName("gac_value")[id_no-1].innerHTML= "bc";
             document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" from browser";
         }
         else{
+            console.log("No interrupt found");
             document.getElementsByClassName("gac_value")[id_no-1].innerHTML= "sc";
             document.getElementsByClassName("gac_notifier")[id_no-1].innerHTML= "Switch "+(id_no).toString() + " turned " + onoff +" according to schedule";
         }
@@ -63,66 +66,6 @@ function change_state(id_no,pin_no,to_state,interrupt) {
   xhttp.open("GET", "change_state/"+pin_no+"/"+interrupt+"/"+to_state, true);
   xhttp.send();
 }
-
-function show_switch_on(id_no){
-    document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
-}
-
-function show_switch_off(id_no){
-    document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
-}
-
-function show_schedule_on(id_no){
-    document.getElementsByClassName("schedule_on")[id_no-1].style.display="block";
-}
-
-function show_schedule_off(id_no){
-    document.getElementsByClassName("schedule_off")[id_no-1].style.display="block";
-}
-// To set schedule time on the sever through ajax call
-function set_schedule_time(pin_no,id_no){
-    sh=document.getElementsByClassName("sh")[id_no-1].value;
-    sm=document.getElementsByClassName("sm")[id_no-1].value;
-    eh=document.getElementsByClassName("eh")[id_no-1].value;
-    em=document.getElementsByClassName("em")[id_no-1].value;
-  var xhttp;
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        document.getElementsByClassName("schedule_off")[id_no-1].style.display="none";
-        document.getElementsByClassName("schedule_on")[id_no-1].style.display="block";
-        document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
-        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
-
-        document.getElementsByClassName("sh_s")[id_no-1].innerHTML=sh;
-        document.getElementsByClassName("sm_s")[id_no-1].innerHTML=sm;
-        document.getElementsByClassName("eh_s")[id_no-1].innerHTML=eh;
-        document.getElementsByClassName("em_s")[id_no-1].innerHTML=em;
-    }
-  };
-  xhttp.open("GET", "set_schedule_time/"+pin_no+"/"+sh+"/"+sm+"/"+eh+"/"+em, true);
-  xhttp.send();
-}
-// To remove schedule feature from a pin
-function remove_schedule_time(id_no,pin_no){
-  var xhttp;
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        document.getElementsByClassName("schedule_off")[id_no-1].style.display="block";
-        document.getElementsByClassName("schedule_on")[id_no-1].style.display="none";
-        document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
-        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
-    }
-  };
-  xhttp.open("GET", "remove_schedule_time/"+pin_no, true);
-  xhttp.send();
-}
-
-
-
-
-
 
 
 function check_state(){
@@ -147,11 +90,6 @@ function deepak(){
         var i=0;
 
 
-
-
-
-
-
         for(i=0;i<4;i++){
             var myjson=obj[i];
 //            document.getElementById("gac_notifier").innerHTML+= "<br>I am not getting correctly";
@@ -173,7 +111,7 @@ function deepak(){
 
             if(myjson.schedule_status){
                   var f=0;
-                console.log(myjson.interrupt);
+//                console.log(myjson.interrupt);
 
                 if(myjson.start_hr < myjson.end_hr){
                     if(h==myjson.start_hr && m >= myjson.start_min){f=1;}
@@ -206,7 +144,7 @@ function deepak(){
                             console.log("change_State from sh");
                             change_state(i+1,myjson.pin_no,1,0);
                         }
-                        if(h==myjson.end_hr && m==myjson.end_min && s==59){
+                        if((h==myjson.end_hr && m==myjson.end_min) && s==59){
 //                            if(myjson.state==1){
                                 console.log("change_State from eh");
                                 change_state(i+1,myjson.pin_no,0,0);
@@ -228,20 +166,8 @@ function deepak(){
             }
 
 
-            dynamic_state_change(myjson.id,myjson.state);
+//            dynamic_state_change(myjson.id,myjson.state);
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -249,14 +175,6 @@ function deepak(){
   xhttp.open("GET", "pin_state/", true);
   xhttp.send();
 }
-
-
-
-
-
-
-
-
 
 
 // dynamically check for state_of_pin for each pin and respond the same on webpage
@@ -356,4 +274,72 @@ function pin_name_submitter(id_no){
       xhttp.open("GET", "change_pin_name/"+id_no+"/"+new_name, true);
       xhttp.send();
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function show_switch_on(id_no){
+    document.getElementsByClassName("switch_on")[id_no-1].style.display="block";
+}
+
+function show_switch_off(id_no){
+    document.getElementsByClassName("switch_off")[id_no-1].style.display="block";
+}
+
+function show_schedule_on(id_no){
+    document.getElementsByClassName("schedule_on")[id_no-1].style.display="block";
+}
+
+function show_schedule_off(id_no){
+    document.getElementsByClassName("schedule_off")[id_no-1].style.display="block";
+}
+// To set schedule time on the sever through ajax call
+function set_schedule_time(pin_no,id_no){
+    sh=document.getElementsByClassName("sh")[id_no-1].value;
+    sm=document.getElementsByClassName("sm")[id_no-1].value;
+    eh=document.getElementsByClassName("eh")[id_no-1].value;
+    em=document.getElementsByClassName("em")[id_no-1].value;
+  var xhttp;
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementsByClassName("schedule_off")[id_no-1].style.display="none";
+        document.getElementsByClassName("schedule_on")[id_no-1].style.display="block";
+        document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
+        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
+
+        document.getElementsByClassName("sh_s")[id_no-1].innerHTML=sh;
+        document.getElementsByClassName("sm_s")[id_no-1].innerHTML=sm;
+        document.getElementsByClassName("eh_s")[id_no-1].innerHTML=eh;
+        document.getElementsByClassName("em_s")[id_no-1].innerHTML=em;
+    }
+  };
+  xhttp.open("GET", "set_schedule_time/"+pin_no+"/"+sh+"/"+sm+"/"+eh+"/"+em, true);
+  xhttp.send();
+}
+// To remove schedule feature from a pin
+function remove_schedule_time(id_no,pin_no){
+  var xhttp;
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementsByClassName("schedule_off")[id_no-1].style.display="block";
+        document.getElementsByClassName("schedule_on")[id_no-1].style.display="none";
+        document.getElementsByClassName("schedule_time_input")[id_no-1].style.display="none";
+        document.getElementsByClassName("interrupt_alerter")[id_no-1].style.display="none";
+    }
+  };
+  xhttp.open("GET", "remove_schedule_time/"+pin_no, true);
+  xhttp.send();
 }

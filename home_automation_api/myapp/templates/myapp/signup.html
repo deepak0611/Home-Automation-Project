@@ -1,20 +1,172 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<form action="" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    username: <input type="text" name="username"><br>-->
+<!--    Email: <input type="email" name="email"><br>-->
+<!--    password: <input type="password" name="password1"><br>-->
+<!--    confirm password: <input type="password" name="password2">-->
+<!--    <input type="submit">-->
+<!--</form>-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<form action="" method="post">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/Client-side form validation.css' %}">
+    <script type="text/javascript" src="{% static 'myapp/Client-side form validation.js' %}"></script>
+
+    <title>Signup</title>
+
+
+  </head>
+  <body>
+
+
+<div class="container" id="cont">
+  <h2>Signup Form</h2>
+  <hr>
+  <span class="rtag">*</span>Required field
+  <br><br>
+  <form action="" method="post" onkeydown="return event.key != 'Enter';">
     {% csrf_token %}
-    username: <input type="text" name="username"><br>
-    Email: <input type="email" name="email"><br>
-    password: <input type="password" name="password1"><br>
-    confirm password: <input type="password" name="password2">
-    <input type="submit">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Username</label><span class="rtag">*</span>
+    <input type="text" class="form-control" id="name" name="username">
+    <p id="namealert" class="alerter">Name is required</p>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label><span class="rtag">*</span>
+    <input type="email" class="form-control" id="email" name="email">
+    <p id="emailalert" class="alerter"></p>
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label><span class="rtag">*</span>
+    <input type="password" class="form-control" name="password1" id="password1" onfocus="showinstruction()" onkeyup="passcheckerfunc()" onkeydown="passcheckerfunc()"><p id="p1alert" class="alerter"></p>
+  </div>
+
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" onchange="showpassword()">
+    <label class="form-check-label" for="exampleCheck1">Show password</label>
+  </div>
+
+
+  <div class="pchecker">
+
+    <div class="inst">
+      <div class="symb">
+        <div class="ch">
+          <i class="fa fa-exclamation-circle" style="font-size:16px;color:red"></i>
+        </div>
+      </div>
+      <div class="inst-cont">
+        must contain atleast one UPPER letter
+      </div>
+    </div>
+
+    <div class="inst">
+      <div class="symb">
+        <div class="ch">
+          <i class="fa fa-exclamation-circle" style="font-size:16px;color:red"></i>
+        </div>
+      </div>
+      <div class="inst-cont">
+        must contain atleast one LOWER letter
+      </div>
+    </div>
+
+    <div class="inst">
+      <div class="symb">
+        <div class="ch">
+          <i class="fa fa-exclamation-circle" style="font-size:16px;color:red"></i>
+        </div>
+      </div>
+      <div class="inst-cont">
+       must contain atleast one Numerical value
+      </div>
+    </div>
+
+    <div class="inst">
+      <div class="symb">
+        <div class="ch">
+          <i class="fa fa-exclamation-circle" style="font-size:16px;color:red"></i>
+        </div>
+      </div>
+      <div class="inst-cont">
+        must contain atleast one character from @%$^&!#*
+      </div>
+    </div>
+
+    <div class="inst">
+      <div class="symb">
+        <div class="ch">
+          <i class="fa fa-exclamation-circle" style="font-size:16px;color:red"></i>
+        </div>
+      </div>
+      <div class="inst-cont">
+       must have minimum 8 characeters
+      </div>
+    </div>
+
+ </div>
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">Confirm Password</label><span class="rtag">*</span>
+    <input type="password" class="form-control" name="password2" id="password2">
+    <p id="p2alert" class="alerter">Password doesn't match</p>
+  </div>
+
+
+ <button type="Submit" id="submitbtn" style="display: none;"></button>
 </form>
+<br>
+<button class="btn btn-primary" onclick="wholefv()">Submit</button>
 
 
-</body>
+</div>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
 </html>

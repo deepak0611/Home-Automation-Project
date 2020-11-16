@@ -20,4 +20,7 @@ urlpatterns = [
     path('signup/',views.signup),
     path('login/',views.loginuser),
     path('logout/',views.logoutuser),
+
+#sending email#
+    path('notify_with_email/',views.notify_with_email),
 ]
