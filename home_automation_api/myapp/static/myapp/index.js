@@ -166,7 +166,7 @@ function deepak(){
             }
 
 
-//            dynamic_state_change(myjson.id,myjson.state);
+            dynamic_state_change(myjson.id,myjson.state);
         }
 
 
@@ -217,7 +217,11 @@ function hardware_checker(){
       xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            if(parseInt(document.getElementById("hardware_status").textContent) == parseInt(this.responseText)){
+            var str = this.responseText;
+            var res = str.split(" ");
+
+
+            if(parseInt(document.getElementById("hardware_status").textContent) == parseInt(res[0])){
                 document.getElementById("hardware_connection").innerHTML="Hardware not connected";
                 document.getElementById("hardware_connection").style.backgroundColor="red";
                 document.getElementById("hardware_status").innerHTML = "0";
@@ -226,11 +230,15 @@ function hardware_checker(){
             else{
                 document.getElementById("hardware_connection").innerHTML="Hardware connected";
                 document.getElementById("hardware_connection").style.backgroundColor="green";
-                document.getElementById("hardware_status").innerHTML = this.responseText;
+                document.getElementById("hardware_status").innerHTML = res[0];
             }
+
+
+            document.getElementById("show_temp").innerHTML = res[1];
+            document.getElementById("show_humid").innerHTML = res[2];
         }
       };
-      xhttp.open("GET", "hardware_status/", true);
+      xhttp.open("GET", "../hardware_status/", true);
       xhttp.send();
 }
 
@@ -242,10 +250,14 @@ function hardware_reseter(){
 
         }
       };
-      xhttp.open("GET", "hardware_reseter/", true);
+      xhttp.open("GET", "../hardware_reseter/", true);
       xhttp.send();
 
 }
+
+
+
+
 
 
 function pin_name_editor(id_no){

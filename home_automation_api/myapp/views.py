@@ -21,10 +21,10 @@ def signup(request):
         user = User.objects.create_user(username,email,password)
         user.save()
         subject = "Welcome to home automation!"
-        message = f'we are very happy for you to being part of our community.We assure you for a clean and smooth experience at our platform.\n\nRegards,\nTeam Home Automation'
+        message = f'We are very happy for you to being part of our community.We assure you for a clean and smooth experience at our platform.\n\nRegards,\nTeam Home Automation'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [user.email]
-        # send_mail(subject, message, email_from, recipient_list)
+        send_mail(subject, message, email_from, recipient_list)
         login(request, user)
         return  redirect(index)
 
@@ -154,7 +154,13 @@ def hardware_status_manager(request,temp,humid):
 
 def hardware_status(request):
     obj1 = hardware.objects.get(id=1)
-    return HttpResponse(obj1.status)
+    status = obj1.status
+    temp = obj1.temp
+    humid = obj1.humid
+    res = ""
+    res = res + str(status) + " " + str(temp) + " " + str(humid)
+    print(res)
+    return HttpResponse(res)
 
 
 def hardware_reseter(request):

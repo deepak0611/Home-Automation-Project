@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Login-Home Automation</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'myapp/index.css' %}">
     <script type="text/javascript" src="{% static 'myapp/index.js' %}"></script>
@@ -30,8 +30,8 @@
 
    <div class="container detail_shower_div">
       <div style="margin-right:10px;display:inline-block;">Time:  <span id="show_time"></span> </div>
-       <div style="margin-right:10px;display:inline-block;">Temperature: {{hardware.temp}}&#8451; </div>
-       <div style="margin-right:10px;display:inline-block;"> Humidity: {{hardware.humid}} % </div>
+       <div style="margin-right:10px;display:inline-block;">Temperature: <span id="show_temp">{{hardware.temp}}</span>&#8451; </div>
+       <div style="margin-right:10px;display:inline-block;"> Humidity: <span id="show_humid">{{hardware.humid}}</span>% </div>
    </div>
 
    <div class="alert alert-light" role="alert">
@@ -65,13 +65,14 @@
 
   <button type="submit" class="btn btn-primary" style="width:100%;">Submit</button>
 </form>
-  <center><p style="margin-top:10px;margin-bottom:0px;">don't have account? <a href="../signup/">create account here</a></p></center>
+  <center><p style="margin-top:10px;margin-bottom:0px;">don't have account? <a href="../signup/">create account</a></p></center>
 </div>
 
 </div>
 
 
 <script>
+for_hardware();
 check_time();
     function check_time(){
         deepak();
@@ -83,6 +84,7 @@ check_time();
         var n = d.toLocaleTimeString();
         document.getElementById("show_time").innerHTML=n;
     }
+
 </script>
 
 
