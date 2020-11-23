@@ -16,6 +16,10 @@ urlpatterns = [
     path('control_with_google_assistant/<id>/<cmd>',views.control_with_google_assistant),
     path('interrupt_handler/<pin_no>',views.interrupt_handler),
 
+#temperature sensitivity
+    path('activate_temp_sensitivity/<pin_no>/<temp>/<cmd>',views.activate_temp_sensitivity),
+    path('remove_temp_sensitivity/<pin_no>',views.remove_temp_sensitivity),
+
 #authentication part #
     path('signup/',views.signup),
     path('login/',views.loginuser),

@@ -15,22 +15,42 @@
   </head>
   <body>
 
-<div class="container" style="position:relative;background-color:#eef6f4;">
+
+
+<div class="container" style="position:relative;background-color:#eef6f4;max-width:1300px;">
 <!--    <h2 style="color:white;margin-top:10px;text-shadow:2px 2px 5px orange,1px 1px 5px blue;">Home Automation</h2>-->
     <div style="dispaly:block;">
         <h2 style="margin-top:10px;display:inline-block;">Home Automation</h2>
         <div style="display:inline-block;float:right;margin-top:10px;">
-            <form method="post" action="logout/">
-                {% csrf_token %}
-                <button class="btn" type="submit"><small>logout</small></button>
-            </form>
+                            <!-- Default dropleft button -->
+                <div class="btn-group dropleft">
+                  <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                    <svg width="1em" height="2em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                    </svg>
+                  </span>
+
+                  <div class="dropdown-menu">
+<!--                      <a class="dropdown-item" onclick="temp_rise_remaider_modal()" style="cursor:pointer;">set temperature rise notifier</a>-->
+
+                        <form method="post" action="logout/" id="logout-form">
+                                {% csrf_token %}
+                        <a class="dropdown-item" onclick="document.getElementById('logout-form').submit();" style="cursor:pointer;">
+                            logout
+                        </a>
+                        </form>
+                  </div>
+
+                </div>
+
+
         </div>
 
     </div>
 
     <hr style="margin-top:0px;">
 
-    <span id="hardware_connection">Hardware not connected </span><span id="hardware_status" style="display:none;">{{hardware.status}}</span>
+    <span id="hardware_connection">Hardware not connected</span><span id="hardware_status" style="display:none;">{{hardware.status}}</span>
     <span id="username"> Hello {{request.user}} </span>
 
 
@@ -42,7 +62,7 @@
    </div>
 
 
-<div class="container-fluid" >
+<div class="container-fluid">
 <!--    <p>Time now is : <span id="show_time"></span></p>-->
 
 
@@ -53,6 +73,7 @@
              <div class="col-lg-5 col-sm-11 switch_box">
                  <div class="row">
                      <div class="col-9">
+                         <h4 style="color:SlateBlue;display:inline-block;">{{i.id}}.</h4>&nbsp;&nbsp;
                          <h4 class="pin_name" style="color:SlateBlue;display:inline-block;">{{i.pin_name}}</h4>&nbsp;&nbsp;
                          <input class="pin_name_input" type="text" value="{{i.pin_name}}" autofocus="autofocus" maxlength="21">
 
@@ -75,21 +96,22 @@
                          <span class="gac_value" style="display:none;">{{i.toggler}}</span>
                      </div>
                      <div class="col-3">
+                         <div class="actual_switch">
 
-                         <div class="switch_on" onclick="change_state({{i.id}},{{i.pin_no}},0,1)">
-                        <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="blue" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
-                          <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
-                        </svg>
+                             <div class="switch_on" onclick="change_state({{i.id}},{{i.pin_no}},0,1)">
+                            <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-on" fill="blue" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 5H3a3 3 0 0 0 0 6h4a4.995 4.995 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416c.156-.357.352-.692.584-1z"/>
+                              <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0z"/>
+                            </svg>
+                            </div>
+
+                            <div class="switch_off" onclick="change_state({{i.id}},{{i.pin_no}},1,1)">
+                            <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
+                              <path fill-rule="evenodd" d="M5 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"/>
+                            </svg>
+                            </div>
                         </div>
-
-                        <div class="switch_off" onclick="change_state({{i.id}},{{i.pin_no}},1,1)">
-                        <svg width="3em" height="2em" viewBox="0 0 16 16" class="bi bi-toggle2-off" fill="grey" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"/>
-                          <path fill-rule="evenodd" d="M5 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"/>
-                        </svg>
-                        </div>
-
                          {% if i.state %}
                             <script>show_switch_on({{i.id}});</script>
                          {% else %}
@@ -99,61 +121,91 @@
                      </div>
                  </div>
 
-                 <div style="margin:15px 0px;">
-                 <span class="gac_notifier"></span>
+                 <div class="normal_mode_div">
+                     <div style="margin:15px 0px;">
+                     <span class="gac_notifier"></span>
+                     </div>
+                     {% if i.state %}
+                        <script>toggledBy(1,{{i.id}});</script>
+                     {% else %}
+                        <script>toggledBy(0,{{i.id}});</script>
+                     {% endif %}
+
+                     <h6>Features</h6>
+                     <hr style="margin-top:1px;margin-bottom:1px;">
+
+                     <div class="schedule_on">
+                        <center> <p class="interrupt_alerter" style="margin-bottom:1px;display:none;"><span style="color:red;">Schedule interrupted!</span>
+                             <span onclick="interrupt_handler({{i.pin_no}},{{i.id}})" style="color:blue;cursor:pointer;">click here to resume</span>
+                         </p></center>
+                         <center>
+                         <p style="color:green;margin-bottom:5px;margin-top:5px;"><b>Scheduled from <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span>
+                             till <span class="eh_s">{{i.end_hr}}</span>:<span class="em_s">{{i.end_min}}</span></b> </p>
+<!--                         <p style="color:green;margin-bottom:10px;margin-top:0px;">Scheduled till <span class="eh_s">{{i.end_hr}}</span>:<span class="em_s">{{i.end_min}}</span>  </p>-->
+                         </center>
+<!--                        <button type="button" class="btn" style="background-color:MediumSeaGreen;width:100%;margin-top:10px;" onclick="display_sti({{i.id}},{{i.pin_no}})" data-toggle="modal" data-target="#scheduleModal">Update Schedule</button>-->
+
+                        <button type="button" class="btn" style="background-color:Orange;width:100%;margin-top:10px;" onclick="remove_schedule_time({{i.id}},{{i.pin_no}})">Remove Schedule</button>
+
+                     </div>
+
+                     <div class="schedule_off">
+                         <button type="button" class="btn" style="background-color:lightgreen;margin-top:10px;width:100%;" onclick="display_sti({{i.id}},{{i.pin_no}})" data-toggle="modal" data-target="#scheduleModal">Set Schedule</button>
+                         <button type="button" class="btn" style="background-color:Orange;margin-top:10px;width:100%;" onclick="display_temp_modal({{i.id}},{{i.pin_no}})" data-toggle="modal" data-target="#tempModal" >Make temperature sensetive</button>
+                     </div>
+
+                     {% if i.schedule_status %}
+                        <script>show_schedule_on({{i.id}});</script>
+                     {% else %}
+                        <script>show_schedule_off({{i.id}});</script>
+                     {% endif %}
+
+<!--                     <div class="schedule_time_input">-->
+
+<!--                        <p style="margin-top:10px;margin-bottom:10px;color:red;">*Use 24-hour format</p>-->
+<!--                        <h6 style="margin-top:0px;">Set start time</h6>-->
+
+<!--                        <input type="number" name="sh" class="sh" min="0" max="23" value="{{i.start_hr}}">&nbsp;Hr&nbsp;&nbsp;-->
+<!--                        <input type="number" name="sm" class="sm" min="0" max="59" value="{{i.start_min}}">&nbsp;Min-->
+<!--                        <br>-->
+<!--                        <h6 style="margin-top:10px;">Set finish time</h6>-->
+<!--                        <input type="number" name="eh" class="eh" min="0" max="23" value="{{i.end_hr}}">&nbsp;Hr&nbsp;&nbsp;-->
+<!--                        <input type="number" name="em" class="em" min="0" max="59" value="{{i.end_min}}">&nbsp;Min-->
+<!--                        <br><br>-->
+
+<!--                        <button  class="btn" onclick="set_schedule_time({{i.pin_no}},{{i.id}})" style="background-color:hsl(116, 74%, 52%);color:white;padding-left:45px;padding-right:45px;"> Set </button>-->
+
+<!--                    </div>-->
+
+                  </div>
+
+                 <div class="temp_mode_div">
+                     <div class="alert alert-simple my-1" role="alert">
+<!--                      <h4 class="alert-heading">Auto mode ON!</h4>-->
+                      <p style="margin-bottom:3px;">Now onwards, this switch will be controlled by the temperature of the room. You can remove this feature anytime you want.</p>
+                      <hr style="margin:0px;">
+<!--                      <p style="margin-bottom:1px;">Switch will {{i.sensitive_action}} above temperature {{i.sensitive_temp}}&#8451;</p>-->
+<!--                      <hr style="margin:0px;">-->
+                      <p class="mb-0" style="color:green;"><b>Switch will
+                          <span class="sensitive_action_span">
+                          {% if i.sensitive_action %}
+                            ON
+                          {% else %}
+                            OFF
+                          {% endif %}
+                          </span>
+
+                          above temperature <span class="sensitive_temp_span">{{i.sensitive_temp}}</span>&#8451; and vice-versa.</b></p>
+                    </div>
+                    <button type="button" class="btn" style="background-color:Orange;margin-top:0px;width:100%;" onclick="remove_temp_sensitivity({{i.id}},{{i.pin_no}})">Remove temperature sensitivity</button>
+
                  </div>
-                 {% if i.state %}
-                    <script>toggledBy(1,{{i.id}});</script>
+
+                 {% if i.temp_sensitivity_status %}
+                    <script>show_temp_mode({{i.id}});</script>
                  {% else %}
-                    <script>toggledBy(0,{{i.id}});</script>
+                    <script>show_normal_mode({{i.id}});</script>
                  {% endif %}
-
-
-
-
-
-                 <h6>Scheduled on/off</h6>
-                 <hr style="margin-top:1px;margin-bottom:1px;">
-
-                 <div class="schedule_on">
-                     <p class="interrupt_alerter" style="margin-bottom:1px;display:none;"><span style="color:red;">Schedule interrupted!</span>
-                         <span onclick="interrupt_handler({{i.pin_no}},{{i.id}})" style="color:blue;cursor:pointer;">click here to resume</span>
-                     </p>
-
-                     <p style="color:green;margin-bottom:5px;margin-top:5px;">Scheduled from <span class="sh_s">{{i.start_hr}}</span>:<span class="sm_s">{{i.start_min}}</span> </p>
-                     <p style="color:green;margin-bottom:10px;margin-top:0px;">Scheduled till <span class="eh_s">{{i.end_hr}}</span>:<span class="em_s">{{i.end_min}}</span>  </p>
-                    <button type="button" class="btn" style="background-color:hsl(220, 100%, 67%);color:white;margin-right:15px;" onclick="display_sti({{i.id}})">Update</button>
-
-                    <button type="button" class="btn" onclick="remove_schedule_time({{i.id}},{{i.pin_no}})" style="background-color:hsl(2, 100%, 67%);color:white;" >Remove</button>
-
-                 </div>
-
-                 <div class="schedule_off">
-                     <button type="button" class="btn" style="background-color:hsl(151, 100%, 67%);margin-top:10px;" onclick="display_sti({{i.id}})">Set Schedule</button>
-                 </div>
-
-                 {% if i.schedule_status %}
-                    <script>show_schedule_on({{i.id}});</script>
-                 {% else %}
-                    <script>show_schedule_off({{i.id}});</script>
-                 {% endif %}
-
-                 <div class="schedule_time_input">
-
-                    <p style="margin-top:10px;margin-bottom:10px;color:red;">*Use 24-hour format</p>
-                    <h6 style="margin-top:0px;">Set start time</h6>
-
-                    <input type="number" name="sh" class="sh" min="0" max="23" value="{{i.start_hr}}">&nbsp;Hr&nbsp;&nbsp;
-                    <input type="number" name="sm" class="sm" min="0" max="59" value="{{i.start_min}}">&nbsp;Min
-                    <br>
-                    <h6 style="margin-top:10px;">Set finish time</h6>
-                    <input type="number" name="eh" class="eh" min="0" max="23" value="{{i.end_hr}}">&nbsp;Hr&nbsp;&nbsp;
-                    <input type="number" name="em" class="em" min="0" max="59" value="{{i.end_min}}">&nbsp;Min
-                    <br><br>
-
-                    <button  class="btn" onclick="set_schedule_time({{i.pin_no}},{{i.id}})" style="background-color:hsl(116, 74%, 52%);color:white;padding-left:45px;padding-right:45px;"> Set </button>
-
-                </div>
 
             </div>
 
@@ -164,6 +216,92 @@
 
 
 </div>
+<!--main div ends here-->
+
+
+
+<!--modals are here below-->
+
+<!--temperature sensitive modal-->
+<div class="modal fade" id="tempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tempModalLabel">Set temperature</h5>
+      </div>
+      <div class="modal-body">
+          <span>Switch Number: </span><span id="temp_set_pin"></span><br>
+          <span id="temp_set_actual_pin_no" style="display:none;"></span>
+          <span>Temperature: </span><span id="temp_set_info">25&#8451;</span><br><br>
+          <input type="range" id="temp_range" name="temp_range" min="0" max="50" style="width:100%;" onchange="temp_range_data_shower()">
+          <br><br>
+          <span>What action to perform above set temperature:</span><br>
+          <input type="radio" value="1" name="temp_action" checked>&nbsp;ON &nbsp;&nbsp;
+          <input type="radio" value="0" name="temp_action">&nbsp;OFF
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-dark" onclick="activate_temp_sensitivity()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--schedule set modal-->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scheduleModalLabel">Set Schedule</h5>
+      </div>
+      <div class="modal-body">
+          <span>Switch Number : </span><span id="schedule_set_pin"></span><br>
+          <span id="schedule_set_actual_pin_no" style="display:none;"></span>
+           <p style="margin-top:10px;margin-bottom:10px;color:red;">*Use 24-hour format</p>
+            <h6 style="margin-top:0px;">Schedule from :</h6>
+
+            <input type="number" name="sh" id="sh" min="0" max="23" value="{{i.start_hr}}">&nbsp;Hours &nbsp;&nbsp;
+            <input type="number" name="sm" id="sm" min="0" max="59" value="{{i.start_min}}">&nbsp;Minutes
+            <br>
+            <h6 style="margin-top:10px;">Schedule till :</h6>
+            <input type="number" name="eh" id="eh" min="0" max="23" value="{{i.end_hr}}">&nbsp;Hours &nbsp;&nbsp;
+            <input type="number" name="em" id="em" min="0" max="59" value="{{i.end_min}}">&nbsp;Minutes
+            <br><br>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-dark" onclick="set_schedule_time()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--remainder modal-->
+<!--<div class="modal fade" id="remainderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="remainderModalLabel">Set Remainder</h5>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <div class="alert alert-success" role="alert">-->
+<!--          <p class="my-1"> Whenever temperature in the room raise above the set temperature, we will notify you on your registered email.</p>-->
+<!--        </div>-->
+<!--         <span>Set Temperature: </span><span id="tempinfo">25</span>&#8451;<br><br>-->
+<!--         <input type="range" id="temp_range_2" name="temp_range" min="0" max="50" style="width:100%;" onchange="document.getElementById('tempinfo').innerHTML = this.value;">-->
+
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>-->
+<!--        <button type="button" class="btn btn-dark" onclick="set_remainder()">Set Remainder</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
 
 <script>
 for_hardware();

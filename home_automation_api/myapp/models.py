@@ -12,6 +12,9 @@ class pin_state(models.Model):
     end_hr = models.IntegerField(default=0)
     end_min = models.IntegerField(default=0)
     toggler = models.CharField(max_length=3,default="bc") #tells who control the switch
+    temp_sensitivity_status = models.BooleanField(default=False)
+    sensitive_temp = models.IntegerField(default=25)
+    sensitive_action = models.BooleanField(default=True)
 
     def __str__(self):
         return self.pin_name

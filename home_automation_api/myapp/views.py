@@ -20,8 +20,8 @@ def signup(request):
         email = request.POST.get("email")
         user = User.objects.create_user(username,email,password)
         user.save()
-        subject = "Welcome to home automation!"
-        message = f'We are very happy for you to being part of our community.We assure you for a clean and smooth experience at our platform.\n\nRegards,\nTeam Home Automation'
+        subject = "Welcome to Home Automation!"
+        message = f'Hello {user.username}, \nWe assure you for a clean and smooth experience at our platform.\n\nRegards,\nTeam Home Automation'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [user.email]
         send_mail(subject, message, email_from, recipient_list)
@@ -159,7 +159,7 @@ def hardware_status(request):
     humid = obj1.humid
     res = ""
     res = res + str(status) + " " + str(temp) + " " + str(humid)
-    print(res)
+    # print(res)
     return HttpResponse(res)
 
 
@@ -173,6 +173,8 @@ def hardware_reseter(request):
 
 def control_with_google_assistant(request, id, cmd):
     obj1 = pin_state.objects.get(id=id)
+    if(obj1.temp_sensitivity_status):
+        return HttpResponse("command cannot be executed")
     # obj1.interrupt=1
 
     obj1.toggler = "gac"
@@ -189,7 +191,7 @@ def control_with_google_assistant(request, id, cmd):
         obj1.state = 1
 
     obj1.save()
-    return HttpResponse("request executed successfully!")
+    return HttpResponse("command executed successfully!")
 
 
 def interrupt_handler(request, pin_no):
@@ -206,3 +208,17 @@ def notify_with_email(request):
     send_mail(subject,message,email_from,recipient_list)
 
     return HttpResponse("email sent!")
+
+def activate_temp_sensitivity(request,pin_no,temp,cmd):
+    obj1= pin_state.objects.get(pin_no=pin_no)
+    obj1.temp_sensitivity_status=1
+    obj1.sensitive_temp=temp
+    obj1.sensitive_action=cmd
+    obj1.save()
+    return HttpResponse("successful!")
+
+def remove_temp_sensitivity(request,pin_no):
+    obj1 = pin_state.objects.get(pin_no=pin_no)
+    obj1.temp_sensitivity_status = 0
+    obj1.save()
+    return HttpResponse("removed successfully!")
