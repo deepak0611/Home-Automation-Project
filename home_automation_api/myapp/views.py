@@ -64,24 +64,15 @@ def index(request):
 
 def change_state(request, pin_no, interrupt, flag):
     obj1 = pin_state.objects.get(pin_no=pin_no)
-    # print(int(interrupt))
     if(int(interrupt)==int(1)):
         obj1.toggler="bc"
     else :
         obj1.toggler="sc"
-
-    # print(bool(interrupt))
-
-
     if (obj1.schedule_status):
         obj1.interrupt = int(interrupt)
     else:
         obj1.interrupt = 0
-
-    # print(obj1.interrupt)
-
     obj1.state = flag
-
     obj1.save()
     return redirect('/')
 
@@ -112,7 +103,6 @@ def change_pin_name(request,id,new_name):
 
 def set_schedule_time(request, pin_no, sh, sm, eh, em):
     obj1 = pin_state.objects.get(pin_no=pin_no)
-
     obj1.start_hr = sh
     obj1.start_min = sm
     obj1.end_hr = eh
@@ -120,7 +110,6 @@ def set_schedule_time(request, pin_no, sh, sm, eh, em):
     obj1.schedule_status = 1
     obj1.interrupt = 0
     obj1.save()
-
     return redirect('/')
 
 
@@ -148,7 +137,6 @@ def hardware_status_manager(request,temp,humid):
     obj1.temp = str(temp)
     obj1.humid =str(humid)
     obj1.save()
-
     return HttpResponse("response sent!")
 
 
@@ -159,7 +147,6 @@ def hardware_status(request):
     humid = obj1.humid
     res = ""
     res = res + str(status) + " " + str(temp) + " " + str(humid)
-    # print(res)
     return HttpResponse(res)
 
 
@@ -175,21 +162,15 @@ def control_with_google_assistant(request, id, cmd):
     obj1 = pin_state.objects.get(id=id)
     if(obj1.temp_sensitivity_status):
         return HttpResponse("command cannot be executed")
-    # obj1.interrupt=1
-
     obj1.toggler = "gac"
-
-
     if (obj1.schedule_status):
         obj1.interrupt = 1
     else:
         obj1.interrupt = 0
-
     if (cmd == "off"):
         obj1.state = 0
     else:
         obj1.state = 1
-
     obj1.save()
     return HttpResponse("command executed successfully!")
 
