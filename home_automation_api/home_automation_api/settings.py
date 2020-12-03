@@ -128,4 +128,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'your email'
 EMAIL_HOST_PASSWORD = 'your password'
 
+# If using gmail then go to security section of account and in Less secure app access, turn on the access. else you will get SMTP error.
 

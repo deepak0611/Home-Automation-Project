@@ -83,23 +83,7 @@ def change_pin_name(request,id,new_name):
     obj1.save()
     return HttpResponse("new pin name saved successfully!")
 
-# def switch_state_change_on_scheduled_time(request):
-#     x = time.localtime(time.time())
-#     z = time.strftime("%I:%M %p", x)
-#     y = time.strftime("%d-%m-%Y", x)
 
-
-# def set_schedule_time(request,pin_no):
-#     obj1= pin_state.objects.get(pin_no=pin_no)
-#
-#     obj1.start_hr=request.GET['sh'];
-#     obj1.start_min=request.GET['sm'];
-#     obj1.end_hr=request.GET['eh'];
-#     obj1.end_min=request.GET['em'];
-#     obj1.schedule_status=1;
-#     obj1.save()
-#
-#     return redirect('/')
 
 def set_schedule_time(request, pin_no, sh, sm, eh, em):
     obj1 = pin_state.objects.get(pin_no=pin_no)
@@ -137,6 +121,16 @@ def hardware_status_manager(request,temp,humid):
     obj1.temp = str(temp)
     obj1.humid =str(humid)
     obj1.save()
+    obj2 = pin_state.objects.all()
+    for obj in obj2:
+        if obj.temp_sensitivity_status:
+            if int(temp) > obj.sensitive_temp:
+                obj.state = obj.sensitive_action
+            else:
+                obj.state = not obj.sensitive_action
+
+            obj.save()
+
     return HttpResponse("response sent!")
 
 

@@ -89,22 +89,22 @@ function deepak(){
 //            document.getElementById("gac_notifier").innerHTML+= "<br>I am not getting correctly";
 
             if(myjson.temp_sensitivity_status){
-                var curr_temp = parseInt(document.getElementById("show_temp").textContent);
-                var sensitive_action;
-                if(myjson.sensitive_action==true){sensitive_action=1;}
-                else{sensitive_action=0;}
-                if(curr_temp > myjson.sensitive_temp){
-                    if(myjson.state != myjson.sensitive_action){
-                        change_state(i+1,myjson.pin_no,sensitive_action,0);
-                    }
-                }
-                else{
-                    if(sensitive_action==1){sensitive_action=0;}
-                    else{sensitive_action=1;}
-                    if(myjson.state == myjson.sensitive_action){
-                        change_state(i+1,myjson.pin_no,sensitive_action,0);
-                    }
-                }
+//                var curr_temp = parseInt(document.getElementById("show_temp").textContent);
+//                var sensitive_action;
+//                if(myjson.sensitive_action==true){sensitive_action=1;}
+//                else{sensitive_action=0;}
+//                if(curr_temp > myjson.sensitive_temp){
+//                    if(myjson.state != myjson.sensitive_action){
+//                        change_state(i+1,myjson.pin_no,sensitive_action,0);
+//                    }
+//                }
+//                else{
+//                    if(sensitive_action==1){sensitive_action=0;}
+//                    else{sensitive_action=1;}
+//                    if(myjson.state == myjson.sensitive_action){
+//                        change_state(i+1,myjson.pin_no,sensitive_action,0);
+//                    }
+//                }
                 dynamic_state_change(myjson.id,myjson.state);
                 continue;
             }
