@@ -24,7 +24,7 @@
 
 ## Project Members
   - Arduino code :- Aniket Kumar ( [Github](https://github.com/Aniket4639) , [LinkedIn](https://www.linkedin.com/in/aniket-kumar-a0ab751ba) )
-  - Frontend & backend code :- Deepak Kumar(me) ( [Github](https://github.com/deepak0611) , [LinkedIn](https://www.linkedin.com/in/deepak-kumar-00a846171/) )
+  - Frontend & backend code :- Deepak Kumar Singh(me) ( [Github](https://github.com/deepak0611) , [LinkedIn](https://www.linkedin.com/in/deepak-kumar-00a846171/) )
   - Hardware Part :- Gunjan Sharma ( [Github](http://github.com/Gunjan1235) , [LinkedIn](https://www.linkedin.com/in/gunjan-sharma-13ba45174) )
   - IFTTT Part :- Vishal Babal ( [Github](http://github.com/vishalbabal817) , [LinkedIn](http://www.linkedin.com/in/vishal-babal-40b108173) )
 
